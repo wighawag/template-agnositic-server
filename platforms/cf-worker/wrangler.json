@@ -7,6 +7,7 @@
   "name": "log2action",
   "main": "src/index.ts",
   "compatibility_date": "2025-01-21",
+  "compatibility_flags": [ "nodejs_compat" ], // for node:async_hooks
   "observability": {
     "enabled": true
   }

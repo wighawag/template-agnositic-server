@@ -1,19 +1,32 @@
 {
-  "name": "log2action",
+  "name": "log2action-monorepo",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
-    "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
-    "start": "wrangler dev",
-    "test": "vitest",
-    "cf-typegen": "wrangler types"
-  },
+  "type": "module",
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.5.2",
-    "@cloudflare/workers-types": "^4.20250121.0",
-    "typescript": "^5.5.2",
-    "vitest": "2.1.8",
-    "wrangler": "^3.103.2"
+    "@changesets/cli": "^2.27.11",
+    "ldenv": "^0.3.12",
+    "set-defaults": "^0.0.5",
+    "syncpack": "^13.0.0",
+    "zellij-launcher": "^0.0.1"
+  },
+  "scripts": {
+    "prepare": "set-defaults .vscode",
+    "preinstall": "npx only-allow pnpm",
+    "---------------------- INSTALL ----------------------": "",
+    "sync-deps": "syncpack fix-mismatches && pnpm -r format:fix",
+    "---------------------- FORMAT ----------------------": "",
+    "format": "prettier --write . && pnpm -r format",
+    "format:check": "prettier --check . && pnpm -r format:check",
+    "---------------------- DEV ----------------------": "",
+    "cf-worker:dev": "pnpm --filter log2action-server-cf-worker dev",
+    "server:dev": "pnpm --filter log2action-server dev",
+    "common:dev": "pnpm --filter log2action-common dev",
+    "---------------------- DEPLOY ----------------------": "",
+    "build": "ldenv pnpm run -r build",
+    "deploy:cf": "pnpm run --filter log2action-server-cf-worker deploy",
+    "---------------------- RUN FULL LOCAL SETUP ----------------------": "",
+    "stop": "zellij kill-session $npm_package_name",
+    "start": "zellij-launcher --layout zellij.kdl a $npm_package_name || zellij --layout zellij.kdl -s $npm_package_name"
   }
 }

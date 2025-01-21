@@ -1,0 +1,20 @@
+# ###########################################
+# .gitignore
+#############################################
+# environment variables
+.env*.local
+
+# node modules
+node_modules/
+#############################################
+
+# Ignore npm files
+pnpm-lock.yaml
+package.json
+
+.wrangler
+.svelte-kit
+dist
+*.md
+dist-tmp
+*.json

@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS Test (name text NULL, PRIMARY KEY (name));
