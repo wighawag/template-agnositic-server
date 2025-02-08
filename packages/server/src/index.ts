@@ -1,14 +1,14 @@
 import {Hono} from 'hono';
 import {cors} from 'hono/cors';
 import {ServerOptions} from './types.js';
-import {getAdminAPI} from './api/admin/index.js';
 import {hc} from 'hono/client';
 import {HTTPException} from 'hono/http-exception';
 import {Env} from './env.js';
+import {getDummyAPI} from './api/dummy.js';
 
 export type {Env};
 
-export type {Storage} from './storage/index.js';
+// export type {Storage} from './storage/index.js';
 
 const corsSetup = cors({
 	origin: '*',
@@ -19,16 +19,14 @@ const corsSetup = cors({
 	credentials: true,
 });
 
-export function createServer<Bindings extends Env>(options: ServerOptions<Bindings>) {
-	const app = new Hono<{Bindings: Bindings}>().get('/', (c) => {
-		return c.text('log2action');
-	});
+export function createServer(options: ServerOptions) {
+	const app = new Hono<{Bindings: Env}>();
 
-	const adminAPI = getAdminAPI(options);
+	const dummy = getDummyAPI(options);
 
 	return app
 		.use('/*', corsSetup)
-		.route('/api/admin', adminAPI)
+		.route('/', dummy)
 		.onError((err, c) => {
 			const config = c.get('config');
 			const env = config?.env || {};
@@ -58,7 +56,7 @@ export function createServer<Bindings extends Env>(options: ServerOptions<Bindin
 		});
 }
 
-export type App = ReturnType<typeof createServer<{}>>;
+export type App = ReturnType<typeof createServer>;
 
 // this is a trick to calculate the type when compiling
 const client = hc<App>('');

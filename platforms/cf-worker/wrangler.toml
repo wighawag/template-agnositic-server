@@ -1,0 +1,18 @@
+name = "push-notification-server-cf-worker"
+main = "src/worker.ts"
+compatibility_date = "2023-08-14"
+
+compatibility_flags = [ "nodejs_compat" ] # for node:async_hooks
+
+[observability]
+enabled = true
+head_sampling_rate = 1 # optional. default = 1.
+
+[env.production]
+
+d1_databases = [
+  { binding = "DB", database_name = "push-notification-db", database_id = "" }
+]
+
+[triggers]
+crons = ["* * * * *", "*/1 * * * *", "*/2 * * * *"]

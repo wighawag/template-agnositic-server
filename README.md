@@ -1,10 +1,6 @@
 <h1 align="center">
-  log2action
+  push-notification-server
 </h1>
-
-<h2 align="center">
-  act on ethereum logs
-</h2>
 
 
 ## Getting Started

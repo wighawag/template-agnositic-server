@@ -1,31 +1,37 @@
 {
-  "name": "log2action-server-cf-worker",
-  "version": "0.0.0",
+  "name": "push-notification-server-cf-worker",
+  "version": "0.10.0",
   "publishConfig": {
     "access": "public"
   },
   "type": "module",
-  "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.5.2",
-    "@cloudflare/workers-types": "^4.20250121.0",
-    "typescript": "^5.5.2",
-    "vitest": "2.1.8",
-    "wrangler": "^3.103.2"
-  },
+  "files": [
+    "src",
+    "tsconfig.json"
+  ],
   "dependencies": {
-    "hono": "^4.6.14",
-    "log2action-common": "workspace:*",
-    "log2action-server": "workspace:*",
-    "named-logs": "^0.3.0",
+    "named-logs": "^0.3.2",
     "named-logs-context": "^0.1.1",
     "remote-sql-d1": "^0.0.6",
-    "workers-logger": "npm:@bug-fix/workers-logger@0.2.0-fix.1"
+    "workers-logger": "0.2.1",
+    "push-notification-server-app": "workspace:*",
+    "viem": "^2.21.55"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.5.36",
+    "@cloudflare/workers-types": "^4.20241205.0",
+    "@types/node": "^22.10.2",
+    "ldenv": "^0.3.12",
+    "set-defaults": "^0.0.5",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8",
+    "wrangler": "^3.95.0"
   },
   "scripts": {
-    "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
-    "start": "wrangler dev",
-    "test": "vitest",
-    "cf-typegen": "wrangler types"
+    "prepare": "set-defaults .",
+    "deploy:production": "wrangler -e production deploy --minify",
+    "dev": "pnpm init-db && wrangler dev -e production --port 34005",
+    "init-db": "ldenv wrangler -e production d1 execute push-notification-db --file=node_modules/push-notification-server-app/src/schema/sql/db.sql ~~",
+    "test": "vitest"
   }
 }

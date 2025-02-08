@@ -1,26 +1,28 @@
 import 'named-logs-context';
-import {Env} from '../env';
+import {RemoteD1} from 'remote-sql-d1';
+import {Env} from './env.js';
 import {logs} from 'named-logs';
 import {track, enable as enableWorkersLogger} from 'workers-logger';
-import {logflareReport} from './logflare.js';
-import {consoleReporter} from './basicReporters.js';
+import {ExecutionContext} from '@cloudflare/workers-types/experimental';
+import {logflareReport} from './utils/logflare.js';
+import {consoleReporter} from './utils/basicReporters.js';
+import {createServer} from 'push-notification-server-app';
+
 enableWorkersLogger('*');
 const logger = logs('worker');
 
-export async function wrapWithLogger(
+async function wrapWithLogger(
 	request: Request,
 	env: Env,
 	ctx: ExecutionContext,
 	callback: (request: Request, env: Env, ctx: ExecutionContext) => Promise<Response>,
 ): Promise<Response> {
 	const namespaces = env.NAMED_LOGS || '*';
-	let logLevel = 2;
-	if (env.NAMED_LOGS || env.NAMED_LOGS_LEVEL) {
-		if (env.NAMED_LOGS_LEVEL) {
-			const level = parseInt(env.NAMED_LOGS_LEVEL);
-			if (!isNaN(level)) {
-				logLevel = level;
-			}
+	let logLevel = 3;
+	if (env.NAMED_LOGS_LEVEL) {
+		const level = parseInt(env.NAMED_LOGS_LEVEL);
+		if (!isNaN(level)) {
+			logLevel = level;
 		}
 	}
 	if ((globalThis as any)._logFactory) {
@@ -32,21 +34,11 @@ export async function wrapWithLogger(
 
 	const _trackLogger = track(
 		request,
-		'FUZD.cloudflare',
+		'PUSH_NOTIFICATION',
 		env.LOGFLARE_API_KEY && env.LOGFLARE_SOURCE
-			? logflareReport({apiKey: env.LOGFLARE_API_KEY, source: env.LOGFLARE_SOURCE})
+			? logflareReport({batchAsSingleEvent: false, apiKey: env.LOGFLARE_API_KEY, source: env.LOGFLARE_SOURCE})
 			: consoleReporter,
 	);
-	// const trackLogger = new Proxy(_trackLogger, {
-	// 	get(t, p) {
-	// 		return (...args: any[]) => {
-	// 			if (p === 'log' || p === 'error' || p === 'info') {
-	// 				console[p](...args);
-	// 			}
-	// 			(_trackLogger as any)[p](...args);
-	// 		};
-	// 	},
-	// });
 	const response = await (globalThis as any)._runWithLogger(_trackLogger, () => {
 		return callback(request, env, ctx).catch((err) => {
 			return new Response(err, {
@@ -61,3 +53,18 @@ export async function wrapWithLogger(
 	}
 	return response;
 }
+
+export const app = createServer<Env>({
+	getDB: (c) => new RemoteD1(c.env.DB),
+	getEnv: (c) => c.env,
+});
+
+const fetch = async (request: Request, env: Env, ctx: ExecutionContext) => {
+	return wrapWithLogger(request, env, ctx, async () => {
+		return app.fetch(request, env, ctx);
+	});
+};
+
+export default {
+	fetch,
+};

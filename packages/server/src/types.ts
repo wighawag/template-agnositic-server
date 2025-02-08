@@ -1,8 +1,8 @@
 import {Context} from 'hono';
-import {Bindings} from 'hono/types';
 import {RemoteSQL} from 'remote-sql';
+import {Env} from './env.js';
 
-export type ServerOptions<Env extends Bindings = Bindings> = {
+export type ServerOptions = {
 	getDB: (c: Context<{Bindings: Env}>) => RemoteSQL;
 	getEnv: (c: Context<{Bindings: Env}>) => Env;
 };
