@@ -1,7 +1,4 @@
-<h1 align="center">
-  push-notification-server
-</h1>
-
+# Agnostic Server
 
 ## Getting Started
 
