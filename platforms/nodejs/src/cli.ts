@@ -26,10 +26,10 @@ async function main() {
   const program = new Command();
 
   program
-    .name("missiv-server-nodejs")
+    .name("template-agnostic-server-nodejs")
     .version(pkg.version)
-    .usage(`missiv-server-nodejs [--port 2000] [--sql <sql-folder>]`)
-    .description("run missiv-server-nodejs as a node process")
+    .usage(`template-agnostic-server-nodejs [--port 2000] [--sql <sql-folder>]`)
+    .description("run template-agnostic-server-nodejs as a node process")
     .option("-p, --port <port>");
 
   program.parse(process.argv);
