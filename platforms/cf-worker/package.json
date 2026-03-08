@@ -14,8 +14,7 @@
     "named-logs-context": "^0.1.1",
     "remote-sql-d1": "^0.0.6",
     "workers-logger": "0.2.1",
-    "template-agnostic-server-app": "workspace:*",
-    "viem": "^2.21.55"
+    "template-agnostic-server-app": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.5.36",

@@ -44,7 +44,6 @@ async function main() {
   const env = process.env as NodeJSEnv;
 
   const db = env.DB;
-  const TOKEN_ADMIN = (env as any).TOKEN_ADMIN;
 
   const client = createClient({
     url: db,
@@ -57,14 +56,8 @@ async function main() {
   });
 
   if (db === ":memory:") {
-    console.log(`executing setup...`);
-    await app.fetch(
-      new Request("http://localhost/admin/setup", {
-        headers: {
-          Authorization: `Basic ${btoa(`admin:${TOKEN_ADMIN}`)}`,
-        },
-      }),
-    );
+    // console.log(`executing setup...`);
+    // can fetch an admin route with the token if needed
   }
 
   serve({

@@ -14,7 +14,7 @@ export type Config<CustomEnv extends Env> = {
 
 declare module 'hono' {
 	interface ContextVariableMap {
-		config: Config<Env>;
+		config: Config<Env>; // We cannot use generics here, but that is fine as server code is expected to only use Env
 	}
 }
 
@@ -27,6 +27,7 @@ export function setup<CustomEnv extends Env>(
 		const env = getEnv(c);
 
 		const db = getDB(c);
+		// use db
 		// const storage = new RemoteSQLStorage(db);
 
 		c.set('config', {
