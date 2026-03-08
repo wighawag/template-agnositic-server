@@ -32,6 +32,8 @@
     "deploy:production": "wrangler -e production deploy --minify",
     "dev": "pnpm init-db && wrangler dev -e production --port 34005",
     "init-db": "ldenv wrangler -e production d1 execute push-notification-db --file=node_modules/push-notification-server-app/src/schema/sql/db.sql ~~",
-    "test": "vitest"
+    "test": "vitest",
+     "format:check": "prettier --check .",
+    "format": "prettier --write ."
   }
 }

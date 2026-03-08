@@ -47,6 +47,6 @@
     "css2ts:watch": "pnpm css2ts && as-soon -w ./src/schema/css pnpm css2ts",
     "dev": "as-soon -w src pnpm build:ts",
     "format:check": "prettier --check .",
-    "format:write": "prettier --write ."
+    "format": "prettier --write ."
   }
 }

@@ -12,7 +12,12 @@ export type {Env};
 
 const corsSetup = cors({
 	origin: '*',
-	allowHeaders: ['X-Custom-Header', 'Upgrade-Insecure-Requests', 'Content-Type', 'SIGNATURE'],
+	allowHeaders: [
+		'X-Custom-Header',
+		'Upgrade-Insecure-Requests',
+		'Content-Type',
+		'SIGNATURE',
+	],
 	allowMethods: ['POST', 'GET', 'HEAD', 'OPTIONS'],
 	exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],
 	maxAge: 600,
@@ -61,4 +66,5 @@ export type App = ReturnType<typeof createServer>;
 // this is a trick to calculate the type when compiling
 const client = hc<App>('');
 export type Client = typeof client;
-export const createClient = (...args: Parameters<typeof hc>): Client => hc<App>(...args);
+export const createClient = (...args: Parameters<typeof hc>): Client =>
+	hc<App>(...args);
