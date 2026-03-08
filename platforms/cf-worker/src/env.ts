@@ -1,4 +1,6 @@
-export type Env = {
+import {Env} from 'template-agnostic-server-app';
+
+export type CloudflareEnv = Env & {
 	DB: D1Database;
 	LOGFLARE_API_KEY?: string;
 	LOGFLARE_SOURCE?: string;

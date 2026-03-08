@@ -1,5 +1,5 @@
 {
-  "name": "push-notification-server-monorepo",
+  "name": "template-agnostic-server-monorepo",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -14,11 +14,11 @@
     "format": "pnpm -r format",
     "format:check": "pnpm -r format:check",
     "---------------------- DEV ----------------------": "",
-    "cf-worker:dev": "pnpm --filter push-notification-server-cf-worker dev",
-    "server:dev": "pnpm --filter push-notification-server-app dev",
+    "cf-worker:dev": "pnpm --filter template-agnostic-server-cf-worker dev",
+    "server:dev": "pnpm --filter template-agnostic-server-app dev",
     "---------------------- DEPLOY ----------------------": "",
     "build": "ldenv pnpm run -r build",
-    "deploy:cf": "pnpm run --filter push-notification-server-server-cf-worker deploy",
+    "deploy:cf": "pnpm run --filter template-agnostic-server-server-cf-worker deploy",
     "---------------------- RUN FULL LOCAL SETUP ----------------------": "",
     "stop": "zellij kill-session $npm_package_name",
     "start": "zellij-launcher --layout zellij.kdl a $npm_package_name || zellij --layout zellij.kdl -s $npm_package_name"

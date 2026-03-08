@@ -6,15 +6,16 @@
 		"module": "NodeNext",
 		"lib": ["ESNext", "dom"],
 		"moduleResolution": "NodeNext",
-		"jsx": "react-jsx",
-		"jsxImportSource": "hono/jsx",
 		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"verbatimModuleSyntax": true,
+		"types": ["node"],
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"declaration": true,
 		"declarationMap": true,
 		"rootDir": "./src",
-		"outDir": "./dist/esm"
+		"outDir": "dist"
 	},
 	"include": ["src/**/*.ts"]
 }

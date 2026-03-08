@@ -1,7 +1,7 @@
 {
-  "name": "push-notification-server-app",
-  "version": "0.10.0",
-  "description": "push notification server app",
+  "name": "template-agnostic-server-app",
+  "version": "0.0.0",
+  "description": "server app",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -20,33 +20,25 @@
     "src"
   ],
   "dependencies": {
-    "@hono/swagger-ui": "^0.5.0",
-    "@hono/typia-validator": "^0.1.0",
     "hono": "^4.6.13",
     "named-logs": "^0.3.2",
     "remote-sql": "^0.0.6"
   },
   "devDependencies": {
     "as-soon": "^0.0.11",
-    "@ryoppippi/unplugin-typia": "^1.1.0",
-    "hono-typia-openapi": "^0.2.0",
     "ldenv": "^0.3.12",
     "prettier": "^3.4.2",
-    "ts-patch": "^3.3.0",
-    "typescript": "^5.6.3",
-    "typia": "^7.4.1"
+    "typescript": "^5.6.3"
   },
   "scripts": {
-    "prepare": "ts-patch install && typia patch",
-    "openapi": "pnpm hto --app-file ./src/index.ts --title push-notification --app-type PublicAPI --output ./doc/openapi.json --description API --app-version api --tsconfig ./tsconfig.json",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
     "build:ts": "tsc --project tsconfig.json",
-    "build": "pnpm openapi && pnpm sql2ts && pnpm build:ts && cp -R doc dist/doc && cp doc/openapi.json ../../docs/public/",
+    "build": "pnpm sql2ts && pnpm build:ts",
     "sql2ts": "node sql2ts.cjs ./src/schema/sql",
     "sql2ts:watch": "pnpm sql2ts && as-soon -w ./src/schema/sql pnpm sql2ts",
     "css2ts": "node css2ts.cjs global",
     "css2ts:watch": "pnpm css2ts && as-soon -w ./src/schema/css pnpm css2ts",
-    "dev": "as-soon -w src pnpm build:ts",
-    "format:check": "prettier --check .",
-    "format": "prettier --write ."
+    "dev": "as-soon -w src pnpm build:ts"
   }
 }

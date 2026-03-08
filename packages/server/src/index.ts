@@ -24,8 +24,10 @@ const corsSetup = cors({
 	credentials: true,
 });
 
-export function createServer(options: ServerOptions) {
-	const app = new Hono<{Bindings: Env}>();
+export function createServer<CustomEnv extends Env>(
+	options: ServerOptions<CustomEnv>,
+) {
+	const app = new Hono<{Bindings: CustomEnv}>();
 
 	const dummy = getDummyAPI(options);
 

@@ -1,6 +1,6 @@
 {
-  "name": "push-notification-server-cf-worker",
-  "version": "0.10.0",
+  "name": "template-agnostic-server-cf-worker",
+  "version": "0.0.0",
   "publishConfig": {
     "access": "public"
   },
@@ -14,7 +14,7 @@
     "named-logs-context": "^0.1.1",
     "remote-sql-d1": "^0.0.6",
     "workers-logger": "0.2.1",
-    "push-notification-server-app": "workspace:*",
+    "template-agnostic-server-app": "workspace:*",
     "viem": "^2.21.55"
   },
   "devDependencies": {
@@ -31,7 +31,7 @@
     "prepare": "set-defaults .",
     "deploy:production": "wrangler -e production deploy --minify",
     "dev": "pnpm init-db && wrangler dev -e production --port 34005",
-    "init-db": "ldenv wrangler -e production d1 execute push-notification-db --file=node_modules/push-notification-server-app/src/schema/sql/db.sql ~~",
+    "init-db": "ldenv wrangler -e production d1 execute template-agnostic-db --file=node_modules/template-agnostic-server-app/src/schema/sql/db.sql ~~",
     "test": "vitest",
      "format:check": "prettier --check .",
     "format": "prettier --write ."

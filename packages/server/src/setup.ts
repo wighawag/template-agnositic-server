@@ -3,22 +3,24 @@ import {ServerOptions} from './types.js';
 import {Env} from './env.js';
 // import {RemoteSQLStorage} from './storage/RemoteSQLStorage.js';
 
-export type SetupOptions = {
-	serverOptions: ServerOptions;
+export type SetupOptions<CustomEnv extends Env> = {
+	serverOptions: ServerOptions<CustomEnv>;
 };
 
-export type Config = {
+export type Config<CustomEnv extends Env> = {
 	// storage: RemoteSQLStorage;
-	env: Env;
+	env: CustomEnv;
 };
 
 declare module 'hono' {
 	interface ContextVariableMap {
-		config: Config;
+		config: Config<Env>;
 	}
 }
 
-export function setup(options: SetupOptions): MiddlewareHandler {
+export function setup<CustomEnv extends Env>(
+	options: SetupOptions<CustomEnv>,
+): MiddlewareHandler {
 	const {getDB, getEnv} = options.serverOptions;
 
 	return async (c, next) => {
