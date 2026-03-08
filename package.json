@@ -16,6 +16,7 @@
     "format:check": "pnpm -r format:check",
     "---------------------- DEV ----------------------": "",
     "cf-worker:dev": "pnpm --filter template-agnostic-server-cf-worker dev",
+    "nodejs:dev": "pnpm --filter template-agnostic-server-nodejs dev",
     "server:dev": "pnpm --filter template-agnostic-server-app dev",
     "---------------------- DEPLOY ----------------------": "",
     "build": "ldenv pnpm run -r build",

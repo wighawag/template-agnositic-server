@@ -1,7 +1,5 @@
-CREATE TABLE IF NOT EXISTS Subscriptions (
-    id text NOT NULL,
-    domain text NOT NULL,
-    timestamp timestamp NOT NULL,
-    subscriptions text,
-    PRIMARY KEY (id, domain)
+CREATE TABLE IF NOT EXISTS Users (
+    id TEXT PRIMARY KEY,
+    email TEXT NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
